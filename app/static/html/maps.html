@@ -24,6 +24,7 @@
       margin-top: 30px;
       border-radius: 10px;
       margin-left: 8px;
+      margin-bottom: 50px
     }
   </style>
 
@@ -33,18 +34,18 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary"
     style="margin-bottom: 30px; padding-top: 5px; padding-bottom: 5px;">
-    <a class="navbar-brand" href="#">NetCheker</a>
+    <a class="navbar-brand" href="#">ГдеСвязи.net</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
       aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <img src="/img/logo2.png" style="width: 70px; margin: 0px 20px; height: 50px; margin-left: 0px" alt="">
+    <img src="../img/logo2.png" style="width: 70px; margin: 0px 20px; height: 50px; margin-left: 0px" alt="">
 
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="../index.html">Главная</a>
+          <a class="nav-link" href="http://127.0.0.1:8080/">Главная</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="maps.html">Построить маршрут</span></a>
@@ -108,6 +109,108 @@
     </div>
   </div>
 
+
+  <!--<div class="card-container">
+    <h2 class="types">2G 3G 4G 5G</h2>
+    <div class="operator-selector">
+      <h4 style="display: inline-block; margin-right: 20px">Выбор оператора:</h4>
+      <select class="form-control" name="" id="">
+        <option value="">MTS</option>
+        <option value="">Megafon</option>
+        <option value="">BeeLine</option>
+        <option value="">Tele2</option>
+      </select>
+    </div>
+    <h2 class="date-block">Субботта, 28 сентября: <b>16:00 - 17:00</b></h2>
+    <h2 class="power-block">Качество связи: <b>100%</b></h2>
+    <h2 class="time-to-down">До падения сети: <b>2 часа</b></h2>
+    <div class="blocks-container">
+    <div style="margin-left: 6px" class="info-block">
+      <h4 class="date-info-block">16:00</h4>
+      <img class="img-power" src="../img/power4.png" alt="">
+      <h4 class="power-info-block">100%</h4>
+    </div>
+    <div class="info-block">
+      <h4 class="date-info-block">17:00</h4>
+      <img class="img-power" src="../img/power2.png" alt="">
+      <h4 class="power-info-block">100%</h4>
+    </div>
+    <div class="info-block">
+      <h4 class="date-info-block">18:00</h4>
+      <img class="img-power" src="../img/power1.png" alt="">
+      <h4 class="power-info-block">100%</h4>
+    </div>
+    <div class="info-block">
+      <h4 class="date-info-block">19:00</h4>
+      <img class="img-power" src="../img/powerNon.png" alt="">
+      <h4 class="power-info-block">100%</h4>
+    </div>
+    <div class="info-block">
+      <h4 class="date-info-block">20:00</h4>
+      <img class="img-power" src="../img/power2.png" alt="">
+      <h4 class="power-info-block">100%</h4>
+    </div>
+    </div>
+  </div> -->
+
+
+  <div class="container justify-content-md-center">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Время</th>
+              <th scope="col">Качество сети</th>
+              <th scope="col">Тип сети</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>16:00 - 17:00</td>
+              <td><img src="../img/power4.png" style="width: 50px; height: 40px" alt=""> 100%</td>
+              <td>2G</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>17:00 - 18:00</td>
+              <td><img src="../img/power2.png" style="width: 50px; height: 40px" alt=""> 50%</td>
+              <td>3G</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>18:00 - 19:00</td>
+              <td><img src="../img/powerNon.png" style="width: 50px; height: 40px" alt=""> 0%</td>
+              <td>2G</td>
+            </tr>
+            <tr>
+              <th scope="row">1</th>
+              <td>16:00 - 17:00</td>
+              <td><img src="../img/power4.png" style="width: 50px; height: 40px" alt=""> 100%</td>
+              <td>2G</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>17:00 - 18:00</td>
+              <td><img src="../img/power2.png" style="width: 50px; height: 40px" alt=""> 50%</td>
+              <td>3G</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>18:00 - 19:00</td>
+              <td><img src="../img/powerNon.png" style="width: 50px; height: 40px" alt=""> 0%</td>
+              <td>2G</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+
   <!-- JS Libs -->
   <script>
           
@@ -117,7 +220,6 @@
           url: "http://127.0.0.1:8080/showall",
         })
         .done(function (data) {
-          console.log(data[0].operator);
           var map = L.map('map').setView([data[0].lat, data[0].long], 12);
 
           //Добавляем на нашу карту слой OpenStreetMap

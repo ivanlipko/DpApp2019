@@ -457,3 +457,66 @@ select.selectpicker {
 .input-group .bs-searchbox .form-control {
   width: 100%;
 }
+
+/* card */
+
+.card-container {
+  width: 800px;
+  margin: 30px auto;
+  border: 1px solid black;
+  border-radius: 20px;
+  background-color: #eee;
+}
+
+.types {
+  display: inline-block;
+  margin-left: 70px;
+  margin-top: 30px;
+}
+
+.operator-selector {
+  display: inline-block;
+  float: right;
+  margin-right: 50px;
+  margin-top: 20px;
+}
+
+.date-block, .power-block, .time-to-down {
+  margin-left: 30px;
+  margin-top: 20px;
+}
+
+.date-block {
+  margin-top: 40px;
+}
+
+.info-block {
+  display: inline-block;
+  width: 150px;
+  border: 2px solid darkgray;
+  border-radius: 10px;
+  margin: 20px 3px;
+}
+
+.img-power {
+  width: 100px;
+  margin-left: 20px;
+  height: 60px;
+}
+
+.date-info-block {
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.power-info-block {
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+b {
+  padding: 0 15px;
+  border: 1px solid darkgray;
+  background-color: white;
+  border-radius: 10px;
+}
