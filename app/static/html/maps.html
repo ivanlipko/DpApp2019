@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Bootstrap Project</title>
+
+  <!-- CSS Libs -->
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- MAPS -->
+  <link rel="stylesheet" href="../css/leaflet.css" />
+  <script src="../js/leaflet.js"></script>
+  <script src="../js/leaflet-heat.js"></script>
+
+  <style>
+    #map {
+      width: 100%;
+      height: 500px;
+      margin-top: 30px;
+      border-radius: 10px;
+      margin-left: 8px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary"
+    style="margin-bottom: 30px; padding-top: 5px; padding-bottom: 5px;">
+    <a class="navbar-brand" href="#">NetCheker</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <img src="/img/logo2.png" style="width: 70px; margin: 0px 20px; height: 50px; margin-left: 0px" alt="">
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="../index.html">Главная</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="maps.html">Построить маршрут</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div style="margin-bottom: 20px" class="col-12">
+
+        <p style="display: inline-block; margin-right: 10px">Операторы: </p>
+
+        <div class="checkselect">
+          <label><input type="checkbox" name="brands[]" value="1" checked>МТС</label>
+          <label><input type="checkbox" name="brands[]" value="2">МегаФон</label>
+          <label><input type="checkbox" name="brands[]" value="3">Билайн</label>
+          <label><input type="checkbox" name="brands[]" value="4">Tele2</label>
+          <label><input type="checkbox" name="brands[]" value="5">Yota</label>
+          <label><input type="checkbox" name="brands[]" value="6">Ростелеком</label>
+        </div>
+
+        <p style="display: inline-block; margin-right: 10px; margin-left: 30px">Тип сети: </p>
+
+        <div class="checkselect">
+          <label><input type="checkbox" name="brands[]" value="1" checked> 2G</label>
+          <label><input type="checkbox" name="brands[]" value="2"> 3G</label>
+          <label><input type="checkbox" name="brands[]" value="3"> 4G</label>
+          <label><input type="checkbox" name="brands[]" value="4"> 5G</label>
+        </div>
+      </div>
+
+      <div class="container" style="width: 500px">
+        <select id="select-city1" class="form-control form-control-xs selectpicker" name="" data-size="7"
+          data-live-search="true" data-title="Location" id="state_list" data-width="100%">
+        </select>
+      </div>
+
+      <img src="../img/logo1.png" alt="" style="width: 30px">
+
+
+      <div class="container" style="width: 500px">
+        <select id="select-city2" class="form-control form-control-xs selectpicker" name="" data-size="7"
+          data-live-search="true" data-title="Location" id="state_list" data-width="100%">
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-primary" style="height: 37px">Построить</button>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div id="map" style="z-index: 1"></div>
+        <script src="../js/jquery-3.4.1.js"></script>
+       
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Libs -->
+  <script>
+          
+      //Определяем карту, координаты центра и начальный масштаб
+
+      $.get({
+          url: "http://127.0.0.1:8080/showall",
+        })
+        .done(function (data) {
+          console.log(data[0].operator);
+          var map = L.map('map').setView([data[0].lat, data[0].long], 12);
+
+          //Добавляем на нашу карту слой OpenStreetMap
+          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+          let arr = [];
+          for (let i = 0; i < data.length; i++) {
+            arr[i] = [Number(data[i].lat), Number(data[i].long), data[i].power];
+          }
+
+          console.log(arr);
+
+          function params(power, operator) {
+            return {
+              color: '#',
+              fillColor: '#ff0000',
+              fillOpacity: 0.04 * power,
+              radius: 100
+            }
+          }
+
+          for (let i = 0; i < arr.length; i++) {
+            L.circle([arr[i][0], arr[i][1]], params(arr[i][2])).addTo(map);
+          }
+
+          console.log(arr);
+        });
+    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="../js/bootstrap.js"></script>
+  <script src="../js/script.js"></script>
+</body>
+
+</html>
