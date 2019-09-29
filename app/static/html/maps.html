@@ -14,8 +14,10 @@
 
   <!-- MAPS -->
   <link rel="stylesheet" href="../css/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
   <script src="../js/leaflet.js"></script>
   <script src="../js/leaflet-heat.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
   <style>
     #map {
@@ -34,7 +36,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary"
     style="margin-bottom: 30px; padding-top: 5px; padding-bottom: 5px;">
-    <a class="navbar-brand" href="#">ГдеСвязи.net</a>
+    <a class="navbar-brand" href="#">ГдеСвязи.Нет</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
       aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -94,7 +96,7 @@
         </select>
       </div>
 
-      <button type="button" class="btn btn-primary" style="height: 37px">Построить</button>
+      <button type="button" id="bildBtn" class="btn btn-primary" style="height: 37px">Построить</button>
 
     </div>
   </div>
@@ -154,7 +156,7 @@
   </div> -->
 
 
-  <div class="container justify-content-md-center">
+  <div class="container justify-content-md-center invisible" id="tablew">
     <div class="row">
       <div class="col-2"></div>
       <div class="col-8">
@@ -167,72 +169,130 @@
               <th scope="col">Тип сети</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>16:00 - 17:00</td>
-              <td><img src="../img/power4.png" style="width: 50px; height: 40px" alt=""> 100%</td>
-              <td>2G</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>17:00 - 18:00</td>
-              <td><img src="../img/power2.png" style="width: 50px; height: 40px" alt=""> 50%</td>
-              <td>3G</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>18:00 - 19:00</td>
-              <td><img src="../img/powerNon.png" style="width: 50px; height: 40px" alt=""> 0%</td>
-              <td>2G</td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>16:00 - 17:00</td>
-              <td><img src="../img/power4.png" style="width: 50px; height: 40px" alt=""> 100%</td>
-              <td>2G</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>17:00 - 18:00</td>
-              <td><img src="../img/power2.png" style="width: 50px; height: 40px" alt=""> 50%</td>
-              <td>3G</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>18:00 - 19:00</td>
-              <td><img src="../img/powerNon.png" style="width: 50px; height: 40px" alt=""> 0%</td>
-              <td>2G</td>
-            </tr>
+          <tbody id="time-list">
+
           </tbody>
         </table>
       </div>
     </div>
   </div>
+
+  <script>
+    let data = [
+      {
+        number: 1,
+        time: '16:00 - 17:00',
+        power: 1,
+        type: '2G'
+      },
+      {
+        number: 2,
+        time: '17:00 - 18:00',
+        power: 4,
+        type: '3G'
+      },
+      {
+        number: 3,
+        time: '18:00 - 19:00',
+        power: 3,
+        type: '3G'
+      },
+      {
+        number: 4,
+        time: '19:00 - 20:00',
+        power: 2,
+        type: '3G'
+      },
+      {
+        number: 5,
+        time: '20:00 - 21:00',
+        power: 1,
+        type: '2G'
+      },
+      {
+        number: 6,
+        time: '21:00 - 22:00',
+        power: 0,
+        type: '4G'
+      },
+      {
+        number: 7,
+        time: '22:00 - 23:00',
+        power: 0,
+        type: '2G'
+      },
+      {
+        number: 8,
+        time: '23:00 - 00:00',
+        power: 2,
+        type: '3G'
+      },
+      {
+        number: 9,
+        time: '00:00 - 01:00',
+        power: 4,
+        type: '4G'
+      },
+      {
+        number: 10,
+        time: '01:00 - 02:00',
+        power: 3,
+        type: '4G'
+      },
+    ]
+
+    function renderList(data) {
+      console.log('check');
+      let element, imgUrl;
+      let arr = [];
+
+      for (let i = 0; i < data.length; i++) {
+        element = data[i];
+
+        if (element.power == 0) {
+          imgUrl = '../img/powerNon.png';
+        } else {
+          imgUrl = '../img/power' + element.power + '.png';
+        }
+
+        arr[i] = '<tr><th scope="row">' + element.number + '</th>' + 
+          '<td>' + element.time + '</td>' +
+          '<td><img src="' + imgUrl + '" style="width: 50px; height: 40px">' + element.power * 25 + '%</td>' +
+          '<td>' +  element.type + '</td></tr>';
+      }
+
+      for (let i = 0; i < arr.length; i++) {
+        $('#time-list').append(arr[i]);
+      }
+    }
+    $('#bildBtn').on('click', function() {
+      if ($('#table').hasClass('invisible')) {
+        $('#table').removeClass('invisible');
+        $('#table').addClass('visible');
+      }
+      renderList(data);
+    });
+  </script>
   
 
   <!-- JS Libs -->
   <script>
           
       //Определяем карту, координаты центра и начальный масштаб
+      var map = L.map('map').setView([55.796289, 49.108795], 12);
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
-      $.get({
+      $('#bildBtn').on('click', function() {
+        $.get({
           url: "http://127.0.0.1:8080/showall",
         })
         .done(function (data) {
-          var map = L.map('map').setView([data[0].lat, data[0].long], 12);
-
-          //Добавляем на нашу карту слой OpenStreetMap
-          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(map);
-
           let arr = [];
           for (let i = 0; i < data.length; i++) {
             arr[i] = [Number(data[i].lat), Number(data[i].long), data[i].power];
-          }
-
-          console.log(arr);
+          } // Преобразование массива
 
           function params(power, operator) {
             return {
@@ -241,14 +301,29 @@
               fillOpacity: 0.04 * power,
               radius: 100
             }
-          }
+          } // Заполнение параметров
 
           for (let i = 0; i < arr.length; i++) {
             L.circle([arr[i][0], arr[i][1]], params(arr[i][2])).addTo(map);
+          } // Отрисовка
+
+          let arr2 = [];
+          for (let i = 0; i < data.length; i++) {
+            arr2[i] = [arr[i][0], arr[i][1]];
           }
 
-          console.log(arr);
+          var latlang = [
+            arr2
+          ];
+
+          // Creating poly line options
+          var polyline = L.polyline(latlang, {color: 'red'}).addTo(map);
+
+          map.fitBounds(polyline.getBounds());
         });
+      })
+
+      
     </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
