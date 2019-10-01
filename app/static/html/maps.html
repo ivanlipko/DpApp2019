@@ -106,7 +106,7 @@
       <div class="col">
         <div id="map" style="z-index: 1"></div>
         <script src="../js/jquery-3.4.1.js"></script>
-       
+
       </div>
     </div>
   </div>
@@ -156,7 +156,7 @@
   </div> -->
 
 
-  <div class="container justify-content-md-center invisible" id="tablew">
+  <div class="container justify-content-md-center" id="tablew">
     <div class="row">
       <div class="col-2"></div>
       <div class="col-8">
@@ -178,120 +178,33 @@
   </div>
 
   <script>
-    let data = [
-      {
-        number: 1,
-        time: '16:00 - 17:00',
-        power: 1,
-        type: '2G'
-      },
-      {
-        number: 2,
-        time: '17:00 - 18:00',
-        power: 4,
-        type: '3G'
-      },
-      {
-        number: 3,
-        time: '18:00 - 19:00',
-        power: 3,
-        type: '3G'
-      },
-      {
-        number: 4,
-        time: '19:00 - 20:00',
-        power: 2,
-        type: '3G'
-      },
-      {
-        number: 5,
-        time: '20:00 - 21:00',
-        power: 1,
-        type: '2G'
-      },
-      {
-        number: 6,
-        time: '21:00 - 22:00',
-        power: 0,
-        type: '4G'
-      },
-      {
-        number: 7,
-        time: '22:00 - 23:00',
-        power: 0,
-        type: '2G'
-      },
-      {
-        number: 8,
-        time: '23:00 - 00:00',
-        power: 2,
-        type: '3G'
-      },
-      {
-        number: 9,
-        time: '00:00 - 01:00',
-        power: 4,
-        type: '4G'
-      },
-      {
-        number: 10,
-        time: '01:00 - 02:00',
-        power: 3,
-        type: '4G'
-      },
-    ]
 
-    function renderList(data) {
-      console.log('check');
-      let element, imgUrl;
-      let arr = [];
+  </script>
 
-      for (let i = 0; i < data.length; i++) {
-        element = data[i];
 
-        if (element.power == 0) {
-          imgUrl = '../img/powerNon.png';
-        } else {
-          imgUrl = '../img/power' + element.power + '.png';
-        }
+  <!-- JS Libs -->
+  <script>
+    //Определяем карту, координаты центра и начальный масштаб
+    var map = L.map('map').setView([55.796289, 49.108795], 12);
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-        arr[i] = '<tr><th scope="row">' + element.number + '</th>' + 
-          '<td>' + element.time + '</td>' +
-          '<td><img src="' + imgUrl + '" style="width: 50px; height: 40px">' + element.power * 25 + '%</td>' +
-          '<td>' +  element.type + '</td></tr>';
-      }
 
-      for (let i = 0; i < arr.length; i++) {
-        $('#time-list').append(arr[i]);
-      }
-    }
-    $('#bildBtn').on('click', function() {
+
+    $('#bildBtn').on('click', function () {
       if ($('#table').hasClass('invisible')) {
         $('#table').removeClass('invisible');
         $('#table').addClass('visible');
       }
-      renderList(data);
-    });
-  </script>
-  
 
-  <!-- JS Libs -->
-  <script>
-          
-      //Определяем карту, координаты центра и начальный масштаб
-      var map = L.map('map').setView([55.796289, 49.108795], 12);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a rel="nofollow" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
-      $('#bildBtn').on('click', function() {
-        $.get({
+      $.get({
           url: "http://127.0.0.1:8080/showall",
         })
         .done(function (data) {
           let arr = [];
           for (let i = 0; i < data.length; i++) {
-            arr[i] = [Number(data[i].lat), Number(data[i].long), data[i].power];
+            arr[i] = [data[i].location.coordinates[0], data[i].location.coordinates[1], data[i].signalStrength];
           } // Преобразование массива
 
           function params(power, operator) {
@@ -306,25 +219,88 @@
           for (let i = 0; i < arr.length; i++) {
             L.circle([arr[i][0], arr[i][1]], params(arr[i][2])).addTo(map);
           } // Отрисовка
+        });
 
-          let arr2 = [];
+      $.get('http://127.0.0.1:8080/show_route_quality')
+        .done(function (data) {
+
+          console.log(data);
+
+          let arr = [];
           for (let i = 0; i < data.length; i++) {
-            arr2[i] = [arr[i][0], arr[i][1]];
+            arr[i] = data[i].location;
           }
 
           var latlang = [
-            arr2
+            arr
           ];
 
+          console.log(arr)
+
           // Creating poly line options
-          var polyline = L.polyline(latlang, {color: 'red'}).addTo(map);
+          var polyline = L.polyline(latlang, {
+            color: 'blue'
+          }).addTo(map);
 
           map.fitBounds(polyline.getBounds());
-        });
-      })
 
-      
-    </script>
+          let dataLocal = [{
+              number: 1,
+              time: '16:00 - 17:00',
+              power: 1,
+              type: '2G'
+            },
+            {
+              number: 2,
+              time: '17:00 - 18:00',
+              power: 4,
+              type: '3G'
+            },
+          ]
+
+          function renderList(data) {
+
+            timeArr = ['22:00', '22:05', '22:10', '22:15', '22:20']
+            let element, imgUrl;
+            let arr = [];
+
+            for (let i = 0; i < 21; i++) {
+              element = data[i];
+              let time = i;
+              if (time < 10) {
+                time = '0' + String(time);
+              }
+              element.time = '22:' + time;
+
+              if (element.signalStrength == 0) {
+                imgUrl = '../img/powerNon.png';
+              } else {
+                imgUrl = '../img/power' + element.signalStrength + '.png';
+              }
+
+              let type = '';
+              for (let i = 0; i < element.signalType.length; i++) {
+                type = type + ' ' + element.signalType[i];
+              }
+
+              arr[i] = '<tr><th scope="row">' + ++element.indx + '</th>' +
+                '<td>' + element.time + '</td>' +
+                '<td><img src="' + imgUrl + '" style="width: 50px; height: 40px">' + element.signalStrength * 25 +
+                '%</td>' +
+                '<td>' + type + '</td></tr>';
+            }
+
+            for (let i = 0; i < arr.length; i++) {
+              $('#time-list').append(arr[i]);
+            }
+          }
+
+          renderList(data);
+
+        })
+
+    })
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
   </script>

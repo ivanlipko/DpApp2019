@@ -1910,7 +1910,7 @@ $('.checkselect').checkselect();
 
 // Render city in search select
 
-let serverAnswer = [
+let serverAnswer1 = [
     {id: 1, name: 'Москва'},
     {id: 2, name: 'Санкт-Петербург'},
     {id: 3, name: 'Казань'},
@@ -1921,7 +1921,21 @@ let serverAnswer = [
     {id: 8, name: 'Краснодар'},
     {id: 9, name: 'Симферополь'},
     {id: 10, name: 'Владивосток'},
-    {id: 11, name: 'Новороссийск'}
+    {id: 11, name: 'Казань'}
+]
+
+let serverAnswer2 = [
+    {id: 1, name: 'Москва'},
+    {id: 2, name: 'Санкт-Петербург'},
+    {id: 3, name: 'Казань'},
+    {id: 4, name: 'Саратов'},
+    {id: 5, name: 'Севастополь'},
+    {id: 6, name: 'Астрахань'},
+    {id: 7, name: 'Сочи'},
+    {id: 8, name: 'Краснодар'},
+    {id: 9, name: 'Симферополь'},
+    {id: 10, name: 'Владивосток'},
+    {id: 11, name: 'Казань Аэропорт'}
 ]
 
 function addList(serverAnswer, id) {
@@ -1932,6 +1946,6 @@ function addList(serverAnswer, id) {
     }
 }
 
-addList(serverAnswer, 1);
-addList(serverAnswer, 2);
+addList(serverAnswer1, 1);
+addList(serverAnswer2, 2);
 
